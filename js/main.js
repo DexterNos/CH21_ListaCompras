@@ -14,8 +14,16 @@ let tabla = document.getElementById("tablaListaCompras");
 let cuerpoTabla = tabla.getElementsByTagName("tbody");
 let alertValidaciones = document.getElementById("alertValidaciones");
 let alertValidacionesTexto = document.getElementById("alertValidacionesTexto");
-let idTimeout;
+let productosTotal = document.getElementById("productosTotal");
 let btnAgregar = document.getElementById("btnAgregar");
+let contadorProductos = document.getElementById("contadorProductos");
+let precioTotal = document.getElementById("precioTotal");
+let contador=0;
+let costoTotal = 0;
+let idTimeout;
+let precio =0;
+let cantidad=0;
+let totalEnProductos =0;
 
 
 //Genera un precio al azar
@@ -60,9 +68,29 @@ btnAgregar.addEventListener ("click", function(event){
           idTimeout = setTimeout (function (){
                alertValidaciones.style.display="none";
           }, 5000);
+          return false;
     }// if ! validaciones
+    txtNombre.style.border = "";
+    txtNumber.style.border = "";
+    alertValidaciones.style.display="none";
+    contador++;
+    contadorProductos.innerHTML=contador;
+    cantidad = parseFloat(txtNumber.value);
+    totalEnProductos+=cantidad;
+    productosTotal.innerHTML=totalEnProductos;
+    precio = getPrecio();
+    costoTotal += precio * cantidad;
+    precioTotal.innerHTML ="$ " + costoTotal.toFixed(2);
 
-
-
+    let row = `<tr>
+        <td> ${contador}</td>
+        <td> ${txtNombre.value} </td>
+        <td> ${txtNumber.value} </td>
+        <td> ${precio} </td>
+     </tr>`;
+    cuerpoTabla[0].insertAdjacentHTML("beforeend", row);
+    txtNombre.value="";
+    txtNumber.value="";
+    txtNombre.focus();
 
 });
